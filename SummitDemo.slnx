@@ -1,0 +1,19 @@
+<Solution>
+  <Project Path="AppHost\SummitDemo.AppHost.csproj" />
+  <Project Path="ServiceDefaults\SummitDemo.ServiceDefaults.csproj" />
+  <Project Path="ApiService\SummitDemo.ApiService.csproj" />
+  <Project Path="Web\SummitDemo.Web.csproj" />
+  <Folder Name="/SteeltoePrototypes/">
+    <Project Path="Libraries\ServiceDiscovery\Eureka\HostExtensions\Libraries.ServiceDiscovery.Eureka.HostExtensions.csproj" />
+    <Project Path="Libraries\Actuators\HostExtensions\Libraries.Actuators.HostExtensions.csproj" />
+    <Project Path="Libraries/BootstrapLogger/AppExtensions/Libraries.BootstrapLogger.AppExtensions.csproj" />
+    <Project Path="Libraries/ServiceDiscovery/Eureka/AppExtensions/Libraries.ServiceDiscovery.Eureka.AppExtensions.csproj" />
+    <Project Path="Libraries\Actuators\AppExtensions\Libraries.Actuators.AppExtensions.csproj" />
+    <Project Path="Libraries\Configuration\ConfigServer\Libraries.Configuration.ConfigServer.HostExtensions\Libraries.Configuration.ConfigServer.HostExtensions.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireSharedProject>true</IsAspireSharedProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="$(ServiceDiscoveryVersion)" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="$(OpenTelemetryVersion)" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="$(OpenTelemetryVersion)" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="$(OpenTelemetryVersion)" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="$(OpenTelemetryVersion)" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="$(OpenTelemetryVersion)" />
+    <PackageReference Include="Steeltoe.Configuration.ConfigServer" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Management.Endpoint" Version="$(SteeltoeVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\Actuators\AppExtensions\Libraries.Actuators.AppExtensions.csproj" />
+    <ProjectReference Include="..\Libraries\ServiceDiscovery\Eureka\AppExtensions\Libraries.ServiceDiscovery.Eureka.AppExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>33702c12-d37d-4edb-9808-38994b4aaaec</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\Actuators\HostExtensions\Libraries.Actuators.HostExtensions.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\Libraries\Configuration\ConfigServer\Libraries.Configuration.ConfigServer.HostExtensions\Libraries.Configuration.ConfigServer.HostExtensions.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\Libraries\ServiceDiscovery\Eureka\HostExtensions\Libraries.ServiceDiscovery.Eureka.HostExtensions.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\ApiService\SummitDemo.ApiService.csproj" />
+    <ProjectReference Include="..\Web\SummitDemo.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.Java" Version="9.8.0" />
+  </ItemGroup>
+
+</Project>

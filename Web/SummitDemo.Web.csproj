@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\ServiceDefaults\SummitDemo.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <Target Name="WriteGitPropertiesToFile" AfterTargets="CoreCompile">
+    <!-- Generate git.properties file from git commands. -->
+    <Exec Command="git config --get remote.origin.url 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitRepositoryUrl)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitRepositoryUrlOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitRepositoryUrl)' == ''">
+      <GitRepositoryUrl>@(GitRepositoryUrlOutput)</GitRepositoryUrl>
+      <GitRepositoryUrl>$([System.String]::Copy('$(GitRepositoryUrl)').Trim())</GitRepositoryUrl>
+    </PropertyGroup>
+    
+    <Exec Command="git describe --tags --always --abbrev=0 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitBaseVersion)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitBaseVersionOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitBaseVersion)' == ''">
+      <GitBaseVersion>@(GitBaseVersionOutput)</GitBaseVersion>
+      <GitBaseVersion>$([System.String]::Copy('$(GitBaseVersion)').Trim())</GitBaseVersion>
+    </PropertyGroup>
+    
+    <Exec Command="git rev-parse --short HEAD 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitCommitShort)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitCommitShortOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitCommitShort)' == ''">
+      <GitCommitShort>@(GitCommitShortOutput)</GitCommitShort>
+      <GitCommitShort>$([System.String]::Copy('$(GitCommitShort)').Trim())</GitCommitShort>
+    </PropertyGroup>
+    
+    <Exec Command="git rev-parse HEAD 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitCommitFull)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitCommitFullOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitCommitFull)' == ''">
+      <GitCommitFull>@(GitCommitFullOutput)</GitCommitFull>
+      <GitCommitFull>$([System.String]::Copy('$(GitCommitFull)').Trim())</GitCommitFull>
+    </PropertyGroup>
+    
+    <Exec Command="git log -1 --pretty=format:%%ci 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitCommitDate)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitCommitDateOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitCommitDate)' == ''">
+      <GitCommitDate>@(GitCommitDateOutput)</GitCommitDate>
+      <GitCommitDate>$([System.String]::Copy('$(GitCommitDate)').Trim())</GitCommitDate>
+    </PropertyGroup>
+    
+    <Exec Command="git describe --tags --exact-match HEAD 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitTag)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitTagOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitTag)' == ''">
+      <GitTag>@(GitTagOutput)</GitTag>
+      <GitTag>$([System.String]::Copy('$(GitTag)').Trim())</GitTag>
+    </PropertyGroup>
+    
+    <Exec Command="git rev-parse --abbrev-ref HEAD 2&gt;nul" IgnoreExitCode="true" ConsoleToMSBuild="true" Condition="'$(GitBranch)' == ''" WorkingDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ConsoleOutput" ItemName="GitBranchOutput" />
+    </Exec>
+    <PropertyGroup Condition="'$(GitBranch)' == ''">
+      <GitBranch>@(GitBranchOutput)</GitBranch>
+      <GitBranch>$([System.String]::Copy('$(GitBranch)').Trim())</GitBranch>
+    </PropertyGroup>
+
+    <!-- Write git.properties file -->
+    <WriteLinesToFile File="git.properties" Lines="git.remote.origin.url=$(GitRepositoryUrl)" Overwrite="true" />
+    <WriteLinesToFile File="git.properties" Lines="git.build.version=$(GitBaseVersion)" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.commit.id.abbrev=$(GitCommitShort)" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.commit.id=$(GitCommitFull)" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.commit.time=$(GitCommitDate)" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.tags=$(GitTag)" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.branch=$(GitBranch)" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.build.time=$([System.DateTime]::Now.ToString('O'))" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.build.user.name=$([System.Environment]::GetEnvironmentVariable('USERNAME'))" Overwrite="false" />
+    <WriteLinesToFile File="git.properties" Lines="git.build.host=$([System.Environment]::GetEnvironmentVariable('COMPUTERNAME'))" Overwrite="false" />
+  </Target>
+
+  <ItemGroup>
+    <None Update="git.properties">
+      <!-- Ensure that the git.properties file ends up in the Publish directory. -->
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
