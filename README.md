@@ -48,7 +48,7 @@ This demo showcases several features beyond standard Aspire templates:
 
 ### Additional Infrastructure Components
 
-The `Libraries/` directory contains prototypes for extensions that use Steeltoe components with Aspire:
+The `Libraries/` directory contains PROTOTYPES for extensions that use Steeltoe components with Aspire:
 
 - **Actuators** - Actuator endpoint configuration and Spring Boot Admin integration
 - **Configuration** - Config Server integration
@@ -75,7 +75,7 @@ SummitDemo/
 ### Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for running containerized services)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) or similar (for running containerized services)
 - [Java 21 JDK](https://adoptium.net/) (for building Spring Boot application)
 - [Maven](https://maven.apache.org/) (for building Spring Boot application)
 
@@ -84,7 +84,7 @@ SummitDemo/
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/TimHess/SummitDemo.git
    cd SummitDemo
    ```
 
@@ -106,9 +106,21 @@ SummitDemo/
    - **Aspire Dashboard**: `http://localhost:15000` (or the port shown in the console)
    - **Web Frontend**: `http://localhost:5000` (or the port shown in the console)
    - **API Service**: `http://localhost:5001` (or the port shown in the console)
-   - **Spring API Service**: `http://localhost:8085`
+   - **Spring API Service**: `http://localhost:8081`
    - **Spring Boot Admin**: `http://localhost:9099`
    - **Eureka Dashboard**: `http://localhost:8761`
+
+### Running the Presentation Slides
+
+The presentation slides are located in the `slides/` directory and use [Slidev](https://github.com/slidevjs/slidev). To run them:
+
+```bash
+cd slides
+pnpm install
+pnpm dev
+```
+
+Then visit `http://localhost:3030` in your browser.
 
 ## Key Technologies
 
@@ -119,6 +131,13 @@ SummitDemo/
 - [Spring Cloud Netflix Eureka](https://spring.io/projects/spring-cloud-netflix) - Spring Cloud Netflix Eureka
 - [Spring Boot Admin](https://codecentric.github.io/spring-boot-admin/) - Application monitoring
 - [OpenTelemetry](https://opentelemetry.io/) - Observability framework
+- [Slidev](https://github.com/slidevjs/slidev) - runs the slides in ./slides
+
+## Session Recording
+
+This demo was presented at the .NET Foundation Summit 2025. You can watch the session recording:
+
+- [YouTube: Cloud-native .NET with Steeltoe](https://www.youtube.com/live/drPRSTg5Nhc?si=WVe_TFS9iQ0acMO4&t=2885)
 
 ## Learn More
 

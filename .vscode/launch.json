@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/SummitDemo.AppHost/bin/Debug/net8.0/SummitDemo.AppHost.dll",
-            "args": [],
+            "args": ["--launchprofile http"],
             "cwd": "${workspaceFolder}/SummitDemo.AppHost",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",

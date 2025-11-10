@@ -14,21 +14,44 @@ public static class EurekaResourceBuilderExtensions
     /// <param name="hostName">
     /// The host name to register this resource with in Eureka. Defaults to "localhost".
     /// </param>
+    /// <param name="resourceNameAsAppName"></param>
     /// <returns>
     /// The <see cref="IResourceBuilder{T}" />.
     /// </returns>
-    public static IResourceBuilder<T> WithEurekaRegistration<T>(this IResourceBuilder<T> builder, string? hostName = "localhost")
+    public static IResourceBuilder<T> WithEurekaRegistration<T>(this IResourceBuilder<T> builder, string? hostName = "localhost", bool resourceNameAsAppName = true)
         where T : IResourceWithEnvironment
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.WithEnvironment("Eureka__Instance__HostName", hostName);
-        //builder.WithEnvironment("Eureka__Instance__AppName", builder.Resource.Name);
+        if (builder.Resource is ProjectResource)
+        {
+            builder.WithEnvironment("Eureka__Instance__HostName", hostName);
 
-        // Make Eureka forget unresponsive instances a bit faster, to work around the limitation
-        // that stopping an instance from the Aspire dashboard does not unregister in Eureka.
-        builder.WithEnvironment("Eureka__Instance__LeaseRenewalIntervalInSeconds", "3");
-        builder.WithEnvironment("Eureka__Instance__LeaseExpirationDurationInSeconds", "9");
+            if (resourceNameAsAppName)
+            {
+                builder.WithEnvironment("Eureka__Instance__AppName", builder.Resource.Name);
+            }
+
+            // Make Eureka forget unresponsive instances a bit faster, to work around the limitation
+            // that stopping an instance from the Aspire dashboard does not unregister in Eureka.
+            builder.WithEnvironment("Eureka__Instance__LeaseRenewalIntervalInSeconds", "3");
+            builder.WithEnvironment("Eureka__Instance__LeaseExpirationDurationInSeconds", "9");
+        }
+        else if (builder.Resource.GetType().Name == "JavaAppExecutableResource" ||
+                 builder.Resource.GetType().Name == "JavaAppContainerResource")
+        {
+            builder.WithEnvironment("Eureka_Instance_HostName", hostName);
+
+            if (resourceNameAsAppName)
+            {
+                builder.WithEnvironment("Eureka_Instance_AppName", builder.Resource.Name);
+            }
+
+            // Make Eureka forget unresponsive instances a bit faster, to work around the limitation
+            // that stopping an instance from the Aspire dashboard does not unregister in Eureka.
+            builder.WithEnvironment("Eureka_Instance_LeaseRenewalIntervalInSeconds", "3");
+            builder.WithEnvironment("Eureka_Instance_LeaseExpirationDurationInSeconds", "9");
+        }
 
         return builder;
     }
@@ -78,12 +101,9 @@ public static class EurekaResourceBuilderExtensions
             // Undo the effects from Aspire's ResourceBuilderExtensions.CreateEndpointReferenceEnvironmentPopulationCallback,
             // so that the built-in ConfigurationServiceEndpointProvider is not used to resolve instances for this service.
 
-            foreach (string key in context.EnvironmentVariables.Keys)
+            foreach (string key in context.EnvironmentVariables.Keys.Where(key => key.StartsWith($"services__{serviceName}__", StringComparison.Ordinal)))
             {
-                if (key.StartsWith($"services__{serviceName}__", StringComparison.Ordinal))
-                {
-                    context.EnvironmentVariables.Remove(key);
-                }
+                context.EnvironmentVariables.Remove(key);
             }
         };
     }

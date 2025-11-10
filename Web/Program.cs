@@ -1,3 +1,4 @@
+using Libraries.ServiceDiscovery.Eureka.AppExtensions;
 using SummitDemo.ServiceDefaults;
 using SummitDemo.Web;
 using SummitDemo.Web.Components;
@@ -19,7 +20,9 @@ builder.Services.AddHttpClient<WeatherApiClient>(client =>
         // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
         // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
         client.BaseAddress = new("https+http://weatherservice");
-    });
+    }).AddServiceDiscovery().AddStandardResilienceHandler();
+
+builder.AddEurekaServiceDiscovery(false, true);
 
 var app = builder.Build();
 

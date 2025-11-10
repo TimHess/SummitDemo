@@ -1,5 +1,4 @@
 using Libraries.Actuators.AppExtensions;
-using Libraries.ServiceDiscovery.Eureka.AppExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,17 +28,16 @@ public static class Extensions
         builder.Services.AddAllActuators();
         builder.AddSpringBootAdminClient();
 
-        builder.Services.AddServiceDiscovery();
-        builder.Services.AddEurekaServiceEndpointProvider();
+        // set resilience and discovery per-client instead of globally
+        // discovery is breaking SBA client right now
+        //builder.Services.ConfigureHttpClientDefaults(http =>
+        //{
+        //    // Turn on resilience by default
+        //    http.AddStandardResilienceHandler();
 
-        builder.Services.ConfigureHttpClientDefaults(http =>
-        {
-            // Turn on resilience by default
-            http.AddStandardResilienceHandler();
-
-            // Turn on service discovery by default
-            http.AddServiceDiscovery();
-        });
+        //    // Turn on service discovery by default
+        //    http.AddServiceDiscovery();
+        //});
 
         // Uncomment the following to restrict the allowed schemes for service discovery.
         // builder.Services.Configure<ServiceDiscoveryOptions>(options =>
@@ -92,13 +90,6 @@ public static class Extensions
         {
             builder.Services.AddOpenTelemetry().UseOtlpExporter();
         }
-
-        // Uncomment the following lines to enable the Azure Monitor exporter (requires the Azure.Monitor.OpenTelemetry.AspNetCore package)
-        //if (!string.IsNullOrEmpty(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]))
-        //{
-        //    builder.Services.AddOpenTelemetry()
-        //       .UseAzureMonitor();
-        //}
 
         return builder;
     }

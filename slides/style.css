@@ -1,0 +1,268 @@
+/* Custom Steeltoe-inspired dark theme for Slidev */
+
+:root {
+  /* Steeltoe-inspired color palette */
+  --steeltoe-primary: #2765cf;
+  --steeltoe-primary-light: #4a8ae8;
+  --steeltoe-primary-dark: #0d3880;
+  --steeltoe-accent: #2765cf;
+  --steeltoe-accent-light: #5a9eff;
+  
+  /* Dark theme colors */
+  --steeltoe-bg-dark: #0a0e1a;
+  --steeltoe-bg-darker: #050710;
+  --steeltoe-surface: #151a2a;
+  --steeltoe-surface-light: #1e2438;
+  
+  /* Text colors for dark theme */
+  --steeltoe-text-primary: #e8eaf6;
+  --steeltoe-text-secondary: #b0b8d0;
+  --steeltoe-text-muted: #7a8499;
+  
+  /* Neutral colors */
+  --steeltoe-gray-900: #1a1a1a;
+  --steeltoe-gray-800: #2d2d2d;
+  --steeltoe-gray-700: #404040;
+  --steeltoe-gray-600: #666666;
+  --steeltoe-gray-400: #999999;
+  --steeltoe-gray-200: #e0e0e0;
+  --steeltoe-gray-100: #f5f5f5;
+  --steeltoe-white: #ffffff;
+  
+  /* Status colors */
+  --steeltoe-success: #4ade80;
+  --steeltoe-info: #60a5fa;
+  --steeltoe-warning: #fbbf24;
+  --steeltoe-error: #f87171;
+}
+
+/* Global slide styling - dark theme */
+.slidev-layout {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--steeltoe-bg-dark) !important;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+/* Regular slides - dark background */
+.slidev-layout:not(.cover):not(.section) {
+  background: var(--steeltoe-bg-dark) !important;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+/* Text elements - ensure readability */
+.slidev-layout:not(.cover):not(.section) p,
+.slidev-layout:not(.cover):not(.section) li,
+.slidev-layout:not(.cover):not(.section) div,
+.slidev-layout:not(.cover):not(.section) span {
+  color: var(--steeltoe-text-primary) !important;
+}
+
+/* Headings - bright colors for dark theme */
+.slidev-layout:not(.cover):not(.section) h1 {
+  color: var(--steeltoe-primary-light) !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.slidev-layout:not(.cover):not(.section) h2 {
+  color: var(--steeltoe-primary-light) !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.slidev-layout:not(.cover):not(.section) h3 {
+  color: var(--steeltoe-accent-light) !important;
+  font-weight: 600;
+}
+
+/* Code blocks - dark theme with good contrast */
+.slidev-layout pre,
+.slidev-layout code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  background: var(--steeltoe-surface) !important;
+  border: 1px solid var(--steeltoe-surface-light) !important;
+  border-radius: 8px;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+.slidev-layout pre {
+  padding: 1rem !important;
+  background: var(--steeltoe-surface) !important;
+}
+
+.slidev-layout pre code {
+  background: transparent !important;
+  border: none !important;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+/* Inline code */
+.slidev-layout code:not(pre code) {
+  background: var(--steeltoe-surface) !important;
+  color: var(--steeltoe-accent-light) !important;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Code syntax highlighting for dark theme */
+.slidev-layout pre .token.keyword {
+  color: var(--steeltoe-primary-light) !important;
+}
+
+.slidev-layout pre .token.string {
+  color: var(--steeltoe-success) !important;
+}
+
+.slidev-layout pre .token.comment {
+  color: var(--steeltoe-text-muted) !important;
+}
+
+.slidev-layout pre .token.function {
+  color: var(--steeltoe-accent-light) !important;
+}
+
+.slidev-layout pre .token.number {
+  color: var(--steeltoe-warning) !important;
+}
+
+/* Links - bright for dark theme */
+.slidev-layout:not(.cover):not(.section) a {
+  color: var(--steeltoe-accent-light) !important;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.slidev-layout:not(.cover):not(.section) a:hover {
+  border-bottom-color: var(--steeltoe-accent-light);
+  color: var(--steeltoe-primary-light) !important;
+}
+
+/* Lists - bright markers */
+.slidev-layout:not(.cover):not(.section) ul li::marker {
+  color: var(--steeltoe-primary-light) !important;
+}
+
+.slidev-layout:not(.cover):not(.section) ol li::marker {
+  color: var(--steeltoe-primary-light) !important;
+}
+
+/* Blockquotes */
+.slidev-layout:not(.cover):not(.section) blockquote {
+  border-left: 4px solid var(--steeltoe-primary);
+  padding-left: 1rem;
+  color: var(--steeltoe-text-secondary) !important;
+  font-style: italic;
+  background: var(--steeltoe-surface);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+/* Title slide - gradient background */
+.slidev-layout.cover {
+  background: linear-gradient(135deg, var(--steeltoe-primary-dark) 0%, var(--steeltoe-primary) 50%, var(--steeltoe-accent) 100%) !important;
+  color: var(--steeltoe-white) !important;
+}
+
+.slidev-layout.cover h1 {
+  color: var(--steeltoe-white) !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.slidev-layout.cover h2,
+.slidev-layout.cover h3,
+.slidev-layout.cover p,
+.slidev-layout.cover div {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Section divider slides */
+.slidev-layout.section {
+  background: linear-gradient(135deg, var(--steeltoe-primary) 0%, var(--steeltoe-accent) 100%) !important;
+  color: var(--steeltoe-white) !important;
+}
+
+.slidev-layout.section h1 {
+  color: var(--steeltoe-white) !important;
+}
+
+.slidev-layout.section p,
+.slidev-layout.section div {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Two-column layout improvements */
+.slidev-layout.two-cols-header h1 {
+  border-bottom: 3px solid var(--steeltoe-primary-light);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Emphasis */
+.slidev-layout:not(.cover):not(.section) strong {
+  color: var(--steeltoe-primary-light) !important;
+  font-weight: 600;
+}
+
+.slidev-layout:not(.cover):not(.section) em {
+  color: var(--steeltoe-text-secondary) !important;
+  font-style: italic;
+}
+
+/* Improve readability */
+.slidev-layout p {
+  line-height: 1.6;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+.slidev-layout li {
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+/* Tables */
+.slidev-layout table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.slidev-layout table th,
+.slidev-layout table td {
+  border: 1px solid var(--steeltoe-surface-light);
+  padding: 0.5rem;
+  color: var(--steeltoe-text-primary) !important;
+}
+
+.slidev-layout table th {
+  background: var(--steeltoe-surface);
+  color: var(--steeltoe-primary-light) !important;
+  font-weight: 600;
+}
+
+/* Horizontal rules */
+.slidev-layout hr {
+  border-color: var(--steeltoe-surface-light);
+  margin: 1.5rem 0;
+}
+
+/* Custom utility classes */
+.text-steeltoe-primary {
+  color: var(--steeltoe-primary-light) !important;
+}
+
+.bg-steeltoe-primary {
+  background-color: var(--steeltoe-primary);
+  color: var(--steeltoe-white) !important;
+}
+
+.border-steeltoe-primary {
+  border-color: var(--steeltoe-primary-light);
+}
+
+/* Slide transitions */
+.slidev-page {
+  transition: all 0.3s ease;
+}

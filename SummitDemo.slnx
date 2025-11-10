@@ -12,6 +12,7 @@
     <Project Path="Libraries\Configuration\ConfigServer\Libraries.Configuration.ConfigServer.HostExtensions\Libraries.Configuration.ConfigServer.HostExtensions.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
     <File Path="nuget.config" />
     <File Path="README.md" />

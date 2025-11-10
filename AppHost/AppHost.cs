@@ -4,27 +4,33 @@ using Libraries.ServiceDiscovery.Eureka.HostExtensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-IResourceBuilder<ConfigServerResource> configServer = builder.AddConfigServer("config-server", "../Configuration")
+// Spin up a Steeltoe-dev Config Server container
+var configServer = builder.AddConfigServer("config-server", "../Configuration")
     .WithLifetime(ContainerLifetime.Persistent);
 
-IResourceBuilder<EurekaResource> eureka = builder.AddEureka("eureka");
+// Spin up a Steeltoe-dev Eureka Server container
+var eureka = builder.AddEureka("eureka")
+    .WithLifetime(ContainerLifetime.Persistent);
 
-IResourceBuilder<SpringBootAdminResource> springBootAdmin = builder.AddSpringBootAdmin("sba");
+// Spin up a Steeltoe-dev Spring Boot Admin Server container
+var springBootAdmin = builder.AddSpringBootAdmin("sba");
 
+// .NET Weather Service
 var apiService = builder.AddProject<Projects.SummitDemo_ApiService>("apiservice")
     .WithHttpHealthCheck("/health")
-    .WithEurekaRegistration()
+    .WithEurekaRegistration(resourceNameAsAppName: false)
     .WaitFor(configServer)
     .WaitFor(eureka)
     .WaitFor(springBootAdmin)
     .WithActuators();
 
+// Spring Weather Service
 var springApp = builder.AddSpringApp("springapp",
         workingDirectory: "../SpringApiService",
         new JavaAppExecutableResourceOptions
         {
             ApplicationName = "target/SpringApiService-0.0.1-SNAPSHOT.jar",
-            Port = 8085,
+            Port = 8081,
             OtelAgentPath = "../agents",
         })
     .WithMavenBuild()
@@ -32,19 +38,19 @@ var springApp = builder.AddSpringApp("springapp",
     {
         c.WithBuildArg("JAR_NAME", "SpringApiService-0.0.1-SNAPSHOT.jar")
             .WithBuildArg("AGENT_PATH", "/agents")
-            .WithBuildArg("SERVER_PORT", "8085");
+            .WithBuildArg("SERVER_PORT", "8081");
     })
+    .WithActuators()
     .WaitFor(configServer)
     .WaitFor(eureka)
-    .WaitFor(springBootAdmin);
+    .WaitFor(springBootAdmin)
+    .WithUrlForEndpoint("http", endpoint => endpoint.Url += "/weatherforecast");
 
 builder.AddProject<Projects.SummitDemo_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
-    .WithReference(apiService)
-    .WithReference(springApp)
-    .WaitFor(apiService)
-    .WaitFor(springApp)
+    .WithEurekaReference(apiService)
+    .WithEurekaReference(springApp)
     .WithActuators();
 
 builder.Build().Run();
